@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-# Vue 3 + Vite + TypeScript 项目
+# web_aurora
 
-基于 Vue 3、Vite 和 TypeScript 的现代化前端项目框架。
+基于 Vue 3、Vite 和 TypeScript 的现代化前端项目框架，用于 AI 数字人 Web 应用。
 
 ## 🚀 快速开始
 
@@ -80,7 +79,3 @@ npm run build
 - `tsconfig.json` - TypeScript 编译配置，启用严格模式
 - `vercel.json` - Vercel 部署配置
 - `netlify.toml` - Netlify 部署配置
-=======
-# web_aurora
-基于TS+Vue3+Vite的Web 官网项目
->>>>>>> 056de6055039c6ffa8a735edbb71ef3d13aaa843
