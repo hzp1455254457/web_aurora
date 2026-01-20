@@ -1,0 +1,5 @@
+docs: 添加 Git commit 消息中文编码修复指南
+
+- 更新项目规则，添加 Git commit 消息的正确使用方法
+- 创建 git-commit-message.md 详细说明修复方法
+- 修复已提交的乱码 commit 消息

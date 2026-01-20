@@ -1,61 +1,89 @@
 <template>
-  <div class="anora-page">
+  <div class="lingmeng-page">
     <!-- 头部组件 -->
-    <AnoraHeader>
-      <template #nav>
-        <!-- 导航菜单占位，后续可根据设计数据动态生成 -->
-      </template>
-    </AnoraHeader>
+    <AnoraHeader />
 
     <!-- 主面板组件 -->
     <AnoraMainPanel>
+      <!-- Landing Section -->
       <template #landing>
-        <div class="landing-content">
-          <h1>Welcome to Anora</h1>
-          <p>AI 女友交互平台</p>
-          <!-- Landingpage 内容区域 - 1344x810 -->
-        </div>
+        <LandingSection 
+          @get-started="handleGetStarted"
+        />
       </template>
 
+      <!-- With you all the time Section -->
       <template #bento-grid-1>
-        <div class="bento-grid">
-          <div class="bento-item">Bento Grid 1 - 内容区域 1</div>
-          <div class="bento-item">Bento Grid 1 - 内容区域 2</div>
-        </div>
+        <FeatureSection
+          title="With you all the time"
+          title-class="pink"
+          :text-content="'She listens.<br/>She remembers.<br/>She responds.<br/>She stays.'"
+          image-url="https://placehold.co/812x457"
+          image-alt="With you all the time"
+        />
       </template>
 
+      <!-- Desktop Companion Cases Section -->
       <template #bento-grid-2>
-        <div class="bento-grid">
-          <div class="bento-item">Bento Grid 2 - 内容区域 1</div>
-          <div class="bento-item">Bento Grid 2 - 内容区域 2</div>
-        </div>
+        <FeatureSection
+          title="桌面陪伴案例"
+          title-class="black"
+          :features="desktopCompanionFeatures"
+          image-url="https://placehold.co/813x457"
+          image-alt="Desktop Companion Cases"
+          image-border-radius="12px"
+        />
       </template>
 
+      <!-- Images Section -->
       <template #group-1683>
-        <div class="group-content">
-          <h2>Group 1683</h2>
-          <p>内容区域 - 1348.25x784</p>
+        <div class="images-section">
+          <img 
+            class="content-image" 
+            src="https://placehold.co/1122x676" 
+            alt="Content Image 1"
+          />
+          <img 
+            class="rotated-image" 
+            src="https://placehold.co/753x676" 
+            alt="Content Image 2"
+          />
+          <div class="gradient-box"></div>
+          <div class="gradient-box rotated"></div>
         </div>
       </template>
 
+      <!-- Dots Section -->
       <template #bento-grid-3>
-        <div class="bento-grid">
-          <div class="bento-item">Bento Grid 3 - 内容区域 1</div>
-          <div class="bento-item">Bento Grid 3 - 内容区域 2</div>
+        <div class="dots-section">
+          <div class="dots">
+            <div 
+              v-for="i in 23" 
+              :key="i" 
+              class="dot"
+            ></div>
+          </div>
+          <div class="dots">
+            <div 
+              v-for="i in 23" 
+              :key="i + 23" 
+              class="dot"
+            ></div>
+          </div>
         </div>
       </template>
 
+      <!-- Module Cards Section -->
       <template #backpage>
-        <div class="backpage-content">
-          <h2>Backpage</h2>
-          <p>内容区域 - 1344px 宽</p>
-        </div>
-      </template>
-
-      <template #intro-company>
-        <div class="intro-content">
-          <h2>Company Introduction</h2>
-          <p>公司介绍内容 - 1200x243</p>
+        <div class="modules-section">
+          <ModuleCard
+            v-for="module in modules"
+            :key="module.title"
+            :title="module.title"
+            :description="module.description"
+            :icon-url="module.iconUrl"
+            @close="handleModuleClose(module)"
+          />
         </div>
       </template>
     </AnoraMainPanel>
@@ -63,191 +91,167 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import AnoraHeader from '@/components/layout/AnoraHeader.vue'
 import AnoraMainPanel from '@/components/business/AnoraMainPanel.vue'
+import LandingSection from '@/components/business/LandingSection.vue'
+import FeatureSection from '@/components/business/FeatureSection.vue'
+import ModuleCard from '@/components/business/ModuleCard.vue'
 
-// Anora 主页组件
-// 根据 Figma 设计：[Container]homepage
-// 设计尺寸：1440x4539
-// 设计结构：
-// - [Container]head (头部，1440x84)
-//   - [Image]logo (Logo，197x73.21)
-//   - [Container]tab (导航菜单)
-// - [Container]MainPanel (主面板)
-//   - Main Content (1344px 宽)
-//     - Landingpage (1344x810)
-//     - bentoGrid02 (多个)
-//     - Group 1683 (1348.25x784)
-//     - backpage (1344px 宽)
-//     - intro_company (1200x243)
+// 桌面陪伴案例特性列表
+const desktopCompanionFeatures = ref([
+  { text: '实时提供情绪价值', active: true },
+  { text: '实时提供游戏攻略', active: false },
+  { text: '在游戏中寻找共鸣', active: false },
+  { text: '你的贴心追剧搭子', active: false }
+])
+
+// 模块卡片数据
+const modules = ref([
+  {
+    title: '健康管家模组',
+    description: '趋势分析、提醒、作息微调方案、久坐/拉伸计划、用药/复诊日程管理（仅提醒）',
+    iconUrl: 'https://placehold.co/66x66'
+  },
+  {
+    title: '桌面自动化模组',
+    description: '一键整理下载文件、自动重命名、截图归档、会议录音转写',
+    iconUrl: 'https://placehold.co/66x66'
+  },
+  {
+    title: '区块链分析模组',
+    description: '地址画像(资金流向/活跃度)、项目合约风险提示(权限/升级/黑名单)、热点叙事追踪',
+    iconUrl: 'https://placehold.co/66x66'
+  },
+  {
+    title: '番茄钟模组',
+    description: '',
+    iconUrl: 'https://placehold.co/66x66'
+  }
+])
+
+// 处理 Get Started 按钮点击
+const handleGetStarted = () => {
+  console.log('Get Started clicked')
+  // TODO: 实现跳转逻辑
+}
+
+// 处理模块关闭
+const handleModuleClose = (module: typeof modules.value[0]) => {
+  console.log('Close module:', module.title)
+  // TODO: 实现关闭逻辑
+}
 </script>
 
 <style scoped>
-/* 主页面容器 - 根据 Figma 设计：[Container]homepage */
-.anora-page {
+/* 主页面容器 */
+.lingmeng-page {
   width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #ffffff;
+  background: #FEFEFE;
   padding: 0 48px;
   box-sizing: border-box;
 }
 
-/* Landingpage 内容样式 */
-.landing-content {
+/* Images Section */
+.images-section {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px;
-  padding: 3rem;
-  box-sizing: border-box;
+  gap: 0;
 }
 
-.landing-content h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin: 0 0 1rem 0;
+.content-image {
+  width: 1122px;
+  height: 676px;
+  object-fit: cover;
 }
 
-.landing-content p {
-  font-size: 1.25rem;
-  margin: 0;
-  opacity: 0.9;
+.rotated-image {
+  width: 753px;
+  height: 676px;
+  transform: rotate(180deg);
+  transform-origin: top left;
+  object-fit: cover;
 }
 
-/* Bento Grid 样式 */
-.bento-grid {
+.gradient-box {
+  width: 622px;
+  height: 676px;
+  background: linear-gradient(270deg, rgba(255, 200, 219, 0) 0%, rgba(255, 140.99, 180.89, 0.10) 73%, rgba(255, 199.83, 219.14, 0.20) 100%);
+  border-left: 3px #FFC8DB solid;
+  border-top: 3px #FFC8DB solid;
+  border-bottom: 3px #FFC8DB solid;
+  backdrop-filter: blur(25px);
+}
+
+.gradient-box.rotated {
+  transform: rotate(180deg);
+  transform-origin: top left;
+}
+
+/* Dots Section */
+.dots-section {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.dots {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 46px;
+  flex-wrap: wrap;
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+  background: #FFC8DB;
+  border-radius: 9999px;
+}
+
+/* Modules Section */
+.modules-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 24px;
-  width: 100%;
-}
-
-.bento-item {
-  width: 100%;
-  min-height: 200px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-size: 1.1rem;
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-}
-
-.bento-item:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Group 1683 内容样式 */
-.group-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #f9fafb;
-  border-radius: 12px;
-  padding: 3rem;
-  box-sizing: border-box;
-}
-
-.group-content h2 {
-  font-size: 2rem;
-  color: #333;
-  margin: 0 0 1rem 0;
-}
-
-.group-content p {
-  color: #666;
-  margin: 0;
-}
-
-/* Backpage 内容样式 */
-.backpage-content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 48px;
-  padding: 3rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  box-sizing: border-box;
-}
-
-.backpage-content h2 {
-  font-size: 2rem;
-  color: #333;
-  margin: 0;
-}
-
-.backpage-content p {
-  color: #666;
-  margin: 0;
-}
-
-/* Company Intro 内容样式 */
-.intro-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-.intro-content h2 {
-  font-size: 1.75rem;
-  color: #333;
-  margin: 0 0 1rem 0;
-}
-
-.intro-content p {
-  color: #666;
-  margin: 0;
-  text-align: center;
 }
 
 /* 响应式设计 */
 @media (max-width: 1440px) {
-  .anora-page {
+  .lingmeng-page {
     padding: 0 24px;
+  }
+
+  .content-image,
+  .rotated-image,
+  .gradient-box {
+    width: 100%;
+    max-width: 1122px;
   }
 }
 
 @media (max-width: 768px) {
-  .anora-page {
+  .lingmeng-page {
     padding: 0 16px;
   }
 
-  .landing-content h1 {
-    font-size: 2rem;
+  .dots {
+    gap: 24px;
   }
 
-  .landing-content p {
-    font-size: 1rem;
+  .modules-section {
+    gap: 16px;
   }
 }
 </style>

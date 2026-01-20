@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>玲梦AI - 成为你温柔而稳定的陪伴</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #FEFEFE;
+      color: #393939;
+    }
+
+    .container {
+      width: 1440px;
+      min-height: 900px;
+      padding: 0 48px;
+      background: #FEFEFE;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      width: 100%;
+      height: 84px;
+      padding: 24px 44px;
+      background: white;
+      box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 66px;
+    }
+
+    .logo {
+      width: 170px;
+      height: 55px;
+      object-fit: contain;
+    }
+
+    .nav-menu {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 62px;
+    }
+
+    .nav-item {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #393939;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #FF8DB5;
+      font-size: 26px;
+    }
+
+    /* Main Content */
+    .main-content {
+      width: 1344px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 102px;
+      padding-top: 48px;
+    }
+
+    /* Landing Section */
+    .landing-section {
+      width: 100%;
+      height: 810px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .landing-bg {
+      width: 1440px;
+      height: 810px;
+      position: absolute;
+      left: -48px;
+      top: 0;
+      object-fit: cover;
+    }
+
+    .landing-overlay {
+      width: 729px;
+      height: 810px;
+      position: absolute;
+      left: -48px;
+      top: 0;
+      background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.20) 100%);
+      backdrop-filter: blur(0px);
+    }
+
+    .landing-content {
+      width: 1440px;
+      padding: 152px 96px 0;
+      position: absolute;
+      left: -48px;
+      top: 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .landing-text {
+      width: 527px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 26px;
+    }
+
+    .landing-title {
+      width: 544px;
+      color: rgba(0, 0, 0, 0.80);
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 91px;
+    }
+
+    .get-started-btn {
+      width: 185.44px;
+      height: 51px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.20);
+      box-shadow: 0px 8px 10px -6px rgba(0, 0, 0, 0.20);
+      border-radius: 38px;
+      outline: 1px rgba(255, 254.99, 254.98, 0.30) solid;
+      outline-offset: -1px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .get-started-btn::before {
+      content: '';
+      position: absolute;
+      width: 183.44px;
+      height: 49px;
+      left: 1px;
+      top: 1px;
+      background: linear-gradient(90deg, rgba(255, 254.99, 254.98, 0.10) 0%, rgba(255, 254.99, 254.98, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+      border-radius: 38px;
+    }
+
+    .get-started-btn::after {
+      content: '';
+      position: absolute;
+      width: 183.44px;
+      height: 49px;
+      left: 1px;
+      top: 1px;
+      background: rgba(255, 255, 255, 0);
+      box-shadow: 0px 2px 4px rgba(255, 254.99, 254.98, 0.20) inset;
+      border-radius: 38px;
+    }
+
+    .get-started-text {
+      position: absolute;
+      left: 41px;
+      top: 11.50px;
+      text-align: center;
+      color: white;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 28px;
+      text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.50);
+      z-index: 1;
+    }
+
+    /* Section Styles */
+    .section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .section-title {
+      width: 100%;
+      text-align: center;
+      font-size: 64px;
+      font-weight: 700;
+      line-height: 100px;
+    }
+
+    .section-title.pink {
+      color: #FCD4E2;
+    }
+
+    .section-title.black {
+      color: rgba(0, 0, 0, 0.80);
+      font-size: 48px;
+    }
+
+    .section-content {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .text-content {
+      width: 500px;
+      padding-left: 68px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 23px;
+    }
+
+    .text-content p {
+      color: #393939;
+      font-size: 35px;
+      font-weight: 700;
+      line-height: 62px;
+    }
+
+    .section-image {
+      width: 812px;
+      height: 457px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    /* Feature List */
+    .feature-list {
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 22px;
+    }
+
+    .feature-item {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 17px;
+    }
+
+    .feature-number {
+      width: 68px;
+      text-align: center;
+      font-size: 48px;
+      font-family: 'Impact', sans-serif;
+      font-weight: 400;
+      line-height: 60px;
+    }
+
+    .feature-number.active {
+      color: #FF8DB5;
+    }
+
+    .feature-number.inactive {
+      color: #FFC8DB;
+    }
+
+    .feature-text {
+      color: black;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 60px;
+    }
+
+    .feature-text.inactive {
+      color: #8D8D8D;
+    }
+
+    .feature-divider {
+      width: 500px;
+      height: 0;
+      outline: 2px #CDCDCD solid;
+      outline-offset: -1px;
+    }
+
+    /* Images */
+    .content-image {
+      width: 1122px;
+      height: 676px;
+      object-fit: cover;
+    }
+
+    .rotated-image {
+      width: 753px;
+      height: 676px;
+      transform: rotate(180deg);
+      transform-origin: top left;
+      object-fit: cover;
+    }
+
+    /* Gradient Box */
+    .gradient-box {
+      width: 622px;
+      height: 676px;
+      background: linear-gradient(270deg, rgba(255, 200, 219, 0) 0%, rgba(255, 140.99, 180.89, 0.10) 73%, rgba(255, 199.83, 219.14, 0.20) 100%);
+      border-left: 3px #FFC8DB solid;
+      border-top: 3px #FFC8DB solid;
+      border-bottom: 3px #FFC8DB solid;
+      backdrop-filter: blur(25px);
+    }
+
+    .gradient-box.rotated {
+      transform: rotate(180deg);
+      transform-origin: top left;
+    }
+
+    /* Dots */
+    .dots {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 46px;
+    }
+
+    .dot {
+      width: 18px;
+      height: 18px;
+      background: #FFC8DB;
+      border-radius: 9999px;
+    }
+
+    /* Module Card */
+    .module-card {
+      width: 371px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .module-card-bg {
+      width: 392px;
+      height: 156px;
+      position: absolute;
+      left: -10px;
+      top: -16px;
+      background: rgba(33.10, 33.10, 33.10, 0.15);
+      border-radius: 18px;
+      border: 1px white solid;
+      backdrop-filter: blur(10px);
+    }
+
+    .module-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .module-title-group {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .module-icon {
+      width: 66px;
+      height: 66px;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    .module-title {
+      color: #FEFCF9;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 26px;
+    }
+
+    .module-close {
+      width: 45px;
+      height: 45px;
+      background: #F4F4F4;
+      box-shadow: 10px 10px 21.213199615478516px -3.75px rgba(0, 0, 0, 0.05);
+      border-radius: 53px;
+      position: relative;
+    }
+
+    .module-close::before,
+    .module-close::after {
+      content: '';
+      position: absolute;
+      width: 27px;
+      height: 0;
+      outline: 5px #FC7445 solid;
+      outline-offset: -2.50px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .module-close::after {
+      transform: translate(-50%, -50%) rotate(-90deg);
+    }
+
+    .module-description {
+      width: 371px;
+      color: white;
+      font-size: 20px;
+      font-family: 'Microsoft YaHei UI', sans-serif;
+      font-weight: 400;
+      line-height: 28px;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <img class="logo" src="https://placehold.co/170x55" alt="玲梦AI Logo">
+        <nav class="nav-menu">
+          <a href="#" class="nav-item active">Home</a>
+          <a href="#" class="nav-item">About Lingmeng</a>
+          <a href="#" class="nav-item">Experience</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Landing Section -->
+      <section class="landing-section">
+        <img class="landing-bg" src="https://placehold.co/1440x810" alt="Landing Background">
+        <div class="landing-overlay"></div>
+        <div class="landing-content">
+          <div class="landing-text">
+            <h1 class="landing-title">玲梦AI<br/>成为你温柔而稳定的陪伴</h1>
+            <button class="get-started-btn">
+              <span class="get-started-text">Get Started</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- With you all the time Section -->
+      <section class="section">
+        <h2 class="section-title pink">With you all the time</h2>
+        <div class="section-content">
+          <div class="text-content">
+            <p>She listens.<br/>She remembers.<br/>She responds.<br/>She stays.</p>
+          </div>
+          <img class="section-image" src="https://placehold.co/812x457" alt="With you all the time">
+        </div>
+      </section>
+
+      <!-- Desktop Companion Cases Section -->
+      <section class="section">
+        <h2 class="section-title black">桌面陪伴案例</h2>
+        <div class="section-content">
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-number active">01</div>
+              <div class="feature-text">实时提供情绪价值</div>
+            </div>
+            <div class="feature-divider"></div>
+            <div class="feature-item">
+              <div class="feature-number inactive">02</div>
+              <div class="feature-text inactive">实时提供游戏攻略</div>
+            </div>
+            <div class="feature-divider"></div>
+            <div class="feature-item">
+              <div class="feature-number inactive">03</div>
+              <div class="feature-text inactive">在游戏中寻找共鸣</div>
+            </div>
+            <div class="feature-divider"></div>
+            <div class="feature-item">
+              <div class="feature-number inactive">04</div>
+              <div class="feature-text inactive">你的贴心追剧搭子</div>
+            </div>
+          </div>
+          <img class="section-image" src="https://placehold.co/813x457" alt="Desktop Companion Cases" style="border-radius: 12px;">
+        </div>
+      </section>
+
+      <!-- Images Section -->
+      <img class="content-image" src="https://placehold.co/1122x676" alt="Content Image 1">
+      <img class="rotated-image" src="https://placehold.co/753x676" alt="Content Image 2">
+      <div class="gradient-box"></div>
+      <div class="gradient-box rotated"></div>
+
+      <!-- Dots Section -->
+      <div class="dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+
+      <!-- Module Cards -->
+      <div class="module-card">
+        <div class="module-card-bg"></div>
+        <div class="module-header">
+          <div class="module-title-group">
+            <img class="module-icon" src="https://placehold.co/66x66" alt="健康管家">
+            <div class="module-title">健康管家模组</div>
+          </div>
+          <div class="module-close"></div>
+        </div>
+        <div class="module-description">趋势分析、提醒、作息微调方案、久坐/拉伸计划、用药/复诊日程管理（仅提醒）</div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-card-bg"></div>
+        <div class="module-header">
+          <div class="module-title-group">
+            <img class="module-icon" src="https://placehold.co/66x66" alt="桌面自动化">
+            <div class="module-title">桌面自动化模组</div>
+          </div>
+          <div class="module-close"></div>
+        </div>
+        <div class="module-description">一键整理下载文件、自动重命名、截图归档、会议录音转写</div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-card-bg"></div>
+        <div class="module-header">
+          <div class="module-title-group">
+            <img class="module-icon" src="https://placehold.co/66x66" alt="区块链分析">
+            <div class="module-title">区块链分析模组</div>
+          </div>
+          <div class="module-close"></div>
+        </div>
+        <div class="module-description">地址画像(资金流向/活跃度)、项目合约风险提示(权限/升级/黑名单)、热点叙事追踪</div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-card-bg"></div>
+        <div class="module-header">
+          <div class="module-title-group">
+            <img class="module-icon" src="https://placehold.co/66x66" alt="番茄钟">
+            <div class="module-title">番茄钟模组</div>
+          </div>
+          <div class="module-close"></div>
+        </div>
+        <div class="module-description"></div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
