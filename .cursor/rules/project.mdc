@@ -613,6 +613,53 @@ mcp_promptx_remember({
 | `openspec validate <change-id> --strict` | 验证变更提案 | 创建变更后 |
 | `openspec archive <change-id> --yes` | 归档变更 | 部署后 |
 
+### Git Commit 消息规范（重要）
+
+**⚠️ 在 PowerShell 中提交中文 commit 消息时，必须使用文件方式，避免编码问题**：
+
+#### 方法一：使用文件提交（推荐）
+
+```powershell
+# 1. 创建 commit 消息文件（UTF-8 编码）
+@"
+docs: 根据项目规范整理文档目录结构
+
+- 创建 docs/ 目录并按类型分类组织项目文档
+- 移动系统规范到 openspec/specs/ 目录
+"@ | Out-File -FilePath commit-msg.txt -Encoding UTF8
+
+# 2. 使用文件提交
+git commit -F commit-msg.txt
+
+# 3. 删除临时文件
+Remove-Item commit-msg.txt
+```
+
+#### 方法二：使用 Git 编辑器
+
+```powershell
+# 设置 Git 编辑器为支持 UTF-8 的编辑器
+git config --global core.editor "code --wait"  # VS Code
+# 或
+git config --global core.editor "notepad"      # 记事本
+
+# 使用编辑器提交
+git commit
+```
+
+#### 方法三：单行消息（简单场景）
+
+```powershell
+# 对于简单的单行消息，可以直接使用
+git commit -m "fix: 修复组件渲染问题"
+```
+
+**重要提示**：
+- ✅ 使用文件方式提交多行中文消息（推荐）
+- ✅ 确保文件使用 UTF-8 编码保存
+- ❌ 避免在 PowerShell 中直接使用 `-m` 参数提交多行中文消息
+- ❌ 避免在命令行中直接输入中文，可能导致编码问题
+
 ---
 
 **最后更新**: 2025  
