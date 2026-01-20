@@ -1,22 +1,12 @@
 <template>
   <div class="app">
-    <header class="header">
-      <img src="/vite.svg" alt="Vite logo" class="logo" />
-      <h1>Vue 3 + Vite</h1>
-    </header>
-    <main class="main">
-      <div class="card">
-        <h2>🚀 项目已就绪</h2>
-        <p>这是一个基于 Vue 3 + Vite + TypeScript 的项目框架</p>
-        <div class="info">
-          <p><strong>开发环境：</strong>运行 <code>npm run dev</code></p>
-          <p><strong>构建生产：</strong>运行 <code>npm run build</code></p>
-          <p><strong>预览构建：</strong>运行 <code>npm run preview</code></p>
-        </div>
-      </div>
-    </main>
+    <Anora />
   </div>
 </template>
+
+<script setup lang="ts">
+import Anora from './views/Anora.vue'
+</script>
 
 <script setup lang="ts">
 // 使用 Composition API

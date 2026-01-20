@@ -1,0 +1,566 @@
+---
+alwaysApply: true
+---
+# web_aurora 工程目录规范与开发指南
+
+<!--
+  Cursor Rules Configuration File
+  Project: web_aurora (Vue 3 + Vite + TypeScript Web Frontend)
+  Purpose: 定义项目开发规范、目录结构、工作流程和 AI 助手行为规则
+  Last Updated: 2025
+-->
+
+这是一个基于 **Vue 3 + Vite + TypeScript** 的 AI 数字人前端 Web 项目。请严格按照以下目录分工进行开发。
+
+## 📂 工作区结构
+
+本项目为单工作区项目：
+
+| 工作区路径 | 用途 | 主要内容 |
+|-----------|------|----------|
+| `D:\DevProject_Web` | **主项目目录** | Vue 3 项目、TypeScript 代码、前端资源 |
+
+**⚠️ 核心原则**：
+- 严格遵循目录职责划分，不要越界开发
+- 自动生成的代码**绝对禁止手动修改**
+- 每次任务完成后**必须发送完成通知**
+- 始终使用**中文**进行沟通
+- 使用 **OpenSpec** 进行规范驱动的开发
+- 使用 **PromptX** 角色系统进行协作
+
+---
+
+## 🏗️ 核心目录结构与职责
+
+### 1. src/ - 源代码目录
+
+**路径**: `src/`  
+**职责**: Vue 3 应用的主要源代码目录
+
+**目录结构**:
+```
+src/
+├── assets/              # 静态资源（图片、字体等）
+├── components/          # 可复用组件
+│   ├── common/          # 通用组件（按钮、输入框等）
+│   ├── layout/          # 布局组件（Header、Sidebar等）
+│   └── business/        # 业务组件（数字人相关）
+├── views/               # 页面视图组件
+│   ├── Home.vue         # 首页
+│   ├── About.vue        # 关于页
+│   └── ...              # 其他页面
+├── router/              # 路由配置
+│   └── index.ts         # 路由定义
+├── stores/              # 状态管理（Pinia）
+│   ├── user.ts          # 用户状态
+│   └── ...              # 其他状态模块
+├── composables/         # 组合式函数（Composables）
+│   ├── useAuth.ts       # 认证相关
+│   ├── useApi.ts         # API 调用
+│   └── ...              # 其他组合式函数
+├── utils/               # 工具函数
+│   ├── request.ts       # HTTP 请求封装
+│   ├── format.ts         # 格式化工具
+│   └── ...              # 其他工具
+├── types/               # TypeScript 类型定义
+│   ├── api.ts           # API 类型
+│   ├── user.ts          # 用户类型
+│   └── ...              # 其他类型
+├── styles/              # 样式文件
+│   ├── variables.css    # CSS 变量
+│   ├── mixins.css       # CSS Mixins
+│   └── global.css       # 全局样式
+├── App.vue              # 根组件
+├── main.ts              # 入口文件
+└── vite-env.d.ts        # Vite 类型声明
+```
+
+**开发规则**:
+- ✅ 新增页面 → 在 `views/` 下创建
+- ✅ 新增可复用组件 → 在 `components/` 下按类型分类
+- ✅ 新增业务逻辑 → 在 `composables/` 下创建组合式函数
+- ✅ 新增工具函数 → 在 `utils/` 下创建
+- ✅ 新增类型定义 → 在 `types/` 下创建
+- ✅ 遵循 Vue 3 Composition API 最佳实践
+- ✅ 使用 `<script setup>` 语法
+
+**⚠️ 自动生成代码（禁止手动修改）**:
+- ❌ `src/vite-env.d.ts` - Vite 自动生成，禁止手动修改
+- ❌ 标记为 `// Auto-generated` 的代码块不可手动修改
+- ❌ 编译产物（`dist/` 目录）
+
+---
+
+### 2. public/ - 静态资源目录
+
+**路径**: `public/`  
+**职责**: 不需要经过构建处理的静态资源
+
+**目录结构**:
+```
+public/
+├── vite.svg            # 网站图标
+├── favicon.ico         # 浏览器图标
+└── ...                 # 其他静态资源
+```
+
+**开发规则**:
+- ✅ 直接放在 `public/` 下的文件会被原样复制到构建输出目录
+- ✅ 使用绝对路径引用：`/vite.svg`
+- ⚠️ 大文件建议使用 CDN 或外部资源
+
+---
+
+### 3. openspec/ - OpenSpec 规范驱动开发
+
+**路径**: `openspec/`  
+**职责**: 使用 OpenSpec 进行规范驱动的开发和变更管理
+
+**目录结构**:
+```
+openspec/
+├── AGENTS.md           # AI 助手使用 OpenSpec 的指南
+├── project.md          # 项目规范说明
+├── specs/              # 系统规范定义
+│   ├── navigation/     # 路由导航系统规范
+│   ├── state-management/# 状态管理系统规范
+│   ├── api-integration/# API 集成规范
+│   ├── component-library/# 组件库规范
+│   └── ...             # 其他系统规范
+├── changes/            # 变更提案和任务
+│   └── <change-id>/    # 具体的变更目录
+│       ├── proposal.md # 变更提案
+│       ├── tasks.md     # 任务清单
+│       ├── design.md    # 技术设计（可选）
+│       └── specs/       # 规范变更
+└── archive/            # 已归档的变更
+```
+
+**主要功能**:
+- 规范驱动的开发（Spec-Driven Development）
+- 变更提案管理
+- 系统规范文档化
+- AI 助手协作指南
+
+**使用场景**:
+- ✅ 新增功能或系统 → 创建变更提案
+- ✅ 修改现有功能 → 创建变更提案
+- ✅ 查看系统规范 → 阅读 `specs/` 目录下的规范文件
+- ✅ 查看变更历史 → 查看 `changes/` 或 `archive/` 目录
+
+**开发规则**:
+- ✅ 重大变更前先创建变更提案（proposal）
+- ✅ 遵循 OpenSpec 工作流程（见 `openspec/AGENTS.md`）
+- ✅ 规范文件使用 `spec.md` 命名
+- ✅ 变更提案放在 `changes/<change-id>/` 目录
+- ✅ 变更 ID 使用 kebab-case，动词开头（如 `add-user-auth`）
+
+**OpenSpec 工作流**:
+1. **创建变更**：创建 `changes/<change-id>/` 目录，包含 `proposal.md`、`tasks.md` 和规范变更
+2. **实施变更**：按 `tasks.md` 逐步实施，完成后标记所有任务
+3. **归档变更**：部署后移动到 `archive/` 目录
+
+**参考文档**:
+- `openspec/AGENTS.md` - AI 助手使用指南
+- `openspec/project.md` - 项目规范说明
+
+---
+
+### 4. .promptx/ - PromptX 角色和记忆系统
+
+**路径**: `.promptx/`  
+**职责**: PromptX AI 角色配置和记忆存储
+
+**目录结构**:
+```
+.promptx/
+├── resource/            # 项目级角色和工具资源
+│   └── role/            # 角色定义
+│       └── frontend-senior-developer/  # 前端高级开发角色
+├── pouch.json           # PromptX 配置
+└── ...                  # 其他 PromptX 文件
+```
+
+**主要功能**:
+- AI 角色定义和管理
+- 记忆网络存储
+- 项目级资源管理
+
+**开发规则**:
+- ✅ 使用 PromptX 角色系统进行任务协作
+- ✅ 重要决策和知识使用 `remember` 保存
+- ✅ 开始任务前使用 `recall` 查看相关记忆
+
+---
+
+### 5. 配置文件根目录
+
+**路径**: 项目根目录  
+**职责**: 项目配置文件
+
+**主要文件**:
+- `package.json` - npm 项目配置和依赖
+- `vite.config.ts` - Vite 构建配置
+- `tsconfig.json` - TypeScript 编译配置
+- `tsconfig.node.json` - Node.js 环境 TypeScript 配置
+- `index.html` - HTML 入口模板
+- `vercel.json` - Vercel 部署配置
+- `netlify.toml` - Netlify 部署配置
+- `.gitignore` - Git 忽略文件
+- `README.md` - 项目说明文档
+
+**开发规则**:
+- ✅ 修改构建配置 → 编辑 `vite.config.ts`
+- ✅ 修改 TypeScript 配置 → 编辑 `tsconfig.json`
+- ✅ 添加依赖 → 编辑 `package.json` 后运行 `npm install`
+- ✅ 修改部署配置 → 编辑 `vercel.json` 或 `netlify.toml`
+
+---
+
+## 🎯 开发场景快速索引
+
+| 开发任务 | 目标目录 | 优先级 |
+|----------|----------|--------|
+| 新增页面 | `src/views/新页面名.vue` | 高 |
+| 新增可复用组件 | `src/components/类型/组件名.vue` | 高 |
+| 新增业务逻辑 | `src/composables/功能名.ts` | 高 |
+| 新增工具函数 | `src/utils/工具名.ts` | 中 |
+| 新增类型定义 | `src/types/类型名.ts` | 中 |
+| 修改路由配置 | `src/router/index.ts` | 高 |
+| 修改状态管理 | `src/stores/模块名.ts` | 高 |
+| 创建变更提案 | `openspec/changes/<change-id>/` | 中 |
+| 编写系统规范 | `openspec/specs/系统名/spec.md` | 中 |
+| 修改构建配置 | `vite.config.ts` | 低 |
+| 修改 TypeScript 配置 | `tsconfig.json` | 低 |
+| 查看设计文档 | `openspec/specs/` 或 `openspec/project.md` | 低 |
+
+---
+
+## 📚 技术栈与工具
+
+### 核心技术
+
+- **Vue 3** (^3.4.21) - 渐进式 JavaScript 框架
+- **Vite** (^5.2.0) - 下一代前端构建工具
+- **TypeScript** (^5.4.5) - 类型安全的 JavaScript 超集
+
+### 计划集成
+
+- **Vue Router** - 路由管理（待添加）
+- **Pinia** - 状态管理（待添加）
+- **Element Plus** - UI 组件库（如需要）
+
+### 开发工具
+
+- **ESLint** - 代码检查（待配置）
+- **Prettier** - 代码格式化（待配置）
+- **OpenSpec** - 规范驱动开发
+- **PromptX** - AI 角色和记忆系统
+
+---
+
+## 📝 文档编写规范
+
+### OpenSpec 规范文档
+
+当需要编写系统规范时：
+
+1. **定位规范路径**：在 `openspec/specs/` 下创建对应系统目录
+2. **命名规范**：
+   - 系统规范：`spec.md`
+   - 技术设计：`design.md`（放在变更提案中）
+3. **文档结构**：
+   ```markdown
+   ## ADDED Requirements
+   ### Requirement: 功能名称
+   系统 SHALL 提供...
+
+   #### Scenario: 成功场景
+   - **WHEN** 用户执行操作
+   - **THEN** 预期结果
+   ```
+
+### 项目文档
+
+- `README.md` - 项目说明、快速开始、部署指南
+- `openspec/project.md` - 项目规范、技术栈、开发约定
+
+---
+
+## ⚠️ 重要约定（必须遵守）
+
+### 🔴 禁止事项（绝对禁止）
+
+1. ❌ **禁止手动修改自动生成的代码**
+   - `src/vite-env.d.ts` - Vite 自动生成
+   - 标记为 `// Auto-generated` 的代码块
+   - 编译产物（`dist/` 目录）
+
+2. ❌ **禁止越界开发**
+   - 不要在不该修改的目录下创建文件
+   - 严格按照目录职责划分进行开发
+
+3. ❌ **禁止跳过 OpenSpec 流程**
+   - 重大变更必须创建变更提案
+   - 必须等待提案批准后再实施
+
+### ✅ 强制规则（必须执行）
+
+1. ✅ **所有系统规范统一放在 `openspec/specs/` 目录**
+   - 不允许在其他位置创建规范文档
+
+2. ✅ **重大变更前先创建变更提案**
+   - 在 `openspec/changes/<change-id>/` 创建提案
+   - 包含 `proposal.md`、`tasks.md` 和规范变更
+
+3. ✅ **使用 Vue 3 Composition API**
+   - 优先使用 `<script setup>` 语法
+   - 使用组合式函数（Composables）组织逻辑
+
+4. ✅ **TypeScript 严格模式**
+   - 启用严格类型检查
+   - 避免使用 `any` 类型
+
+5. ✅ **每次任务完成后必须发送完成通知**（见下方详细规则）
+
+---
+
+## 🚨 完成通知（强制规则）
+
+> ⚠️ **这是强制规则，每次任务完成后必须执行**
+
+### 规则要求
+
+1. **TODO 列表最后一项必须是"发送完成通知"**
+2. **任务结束前必须检查是否已发送**
+3. **即使小改动也要发送**
+
+### 通知命令模板
+
+```bash
+cmd /c python -c "import requests; title = r'Cursor\u4efb\u52a1\u5b8c\u6210'.encode().decode('unicode_escape'); msg = r'<完成说明>'.encode().decode('unicode_escape'); payload={'receiver':'gz0149','title': title, 'msg': msg}; r=requests.post('https://newsfeed.4399om.com/api/messages/send.json', json=payload); print('status', r.status_code); print(r.text)"
+```
+
+**使用说明**：
+- 将 `<完成说明>` 替换为实际的中文说明（使用 `\uXXXX` Unicode 转义格式）
+- `status 200` 且 `ret:0` 为成功
+- 示例：`\u4f18\u5316\u4e86\u804a\u5929\u6a21\u5757\u6027\u80fd`（优化了聊天模块性能）
+
+### AI 助手执行要求
+
+- 在每次代码修改、文件创建、任务完成后，**自动执行通知命令**
+- 不要等待用户提醒，主动发送
+- 如果命令执行失败，需要告知用户
+
+---
+
+## 🎭 开发团队角色系统（PromptX Role System）
+
+本项目配置了完整的开发团队角色，根据任务类型**自动选择最合适的角色执行**。
+
+### 👥 团队角色清单
+
+| 角色 ID | 名称 | 职责领域 | 激活命令 |
+|---------|------|----------|----------|
+| `frontend-senior-developer` | 前端高级开发 | Vue 3、组件开发、业务实现 | `mcp_promptx_action({role: "frontend-senior-developer"})` |
+| `frontend-tech-lead` | 前端技术负责人 | 前端架构设计、技术决策、团队协调 | `mcp_promptx_action({role: "frontend-tech-lead"})` |
+| `writer` | 技术文档 | 设计文档、规范编写 | `mcp_promptx_action({role: "writer"})` |
+| `frontend-qa-engineer` | 前端 QA 工程师 | 前端测试、Bug 修复、质量保证 | `mcp_promptx_action({role: "frontend-qa-engineer"})` |
+
+### 🤖 自动角色匹配规则
+
+当收到任务时，根据关键词**自动识别并激活最合适的角色**：
+
+| 关键词 | 匹配角色 | 示例任务 |
+|--------|----------|----------|
+| Vue、组件、页面、路由、状态管理、业务功能 | `frontend-senior-developer` | "新建用户登录页面" |
+| 架构、设计决策、技术方案、协调、前端架构 | `frontend-tech-lead` | "重构状态管理架构" |
+| 文档、规范、OpenSpec、README | `writer` | "编写组件库规范" |
+| 测试、Bug、QA、验证、前端测试 | `frontend-qa-engineer` | "修复路由跳转 Bug" |
+
+### 🔄 角色协作流程
+
+**单一任务**：
+1. 识别关键词 → 自动激活对应角色
+2. 角色执行任务
+3. 完成后发送通知
+
+**复杂任务**（涉及多领域）：
+1. 先激活 `frontend-tech-lead` 分析任务
+2. frontend-tech-lead 制定协作计划
+3. 按计划逐一调度专业角色
+4. frontend-tech-lead 整合结果
+5. 完成后发送通知
+
+### 📋 角色使用示例
+
+```
+用户: "帮我在 views 下新建一个用户中心页面"
+AI: 
+  1. 识别关键词 "views"、"页面"
+  2. 激活 frontend-senior-developer
+  3. 创建页面组件
+  4. 发送完成通知
+
+用户: "重构整个状态管理架构"
+AI:
+  1. 识别为复杂任务
+  2. 激活 frontend-tech-lead 先分析
+  3. frontend-tech-lead 分配任务给 frontend-senior-developer
+  4. 整合结果
+  5. 发送完成通知
+```
+
+---
+
+## 🧠 记忆系统使用指南（PromptX Memory System）
+
+本项目集成了 PromptX 记忆系统，**请在以下场景中主动使用记忆功能**。
+
+### 📥 何时使用 recall（回忆）
+
+**触发时机**（形成条件反射）：
+- ✅ 收到新任务时 → 先用 `recall` 查看相关记忆
+- ✅ 遇到不熟悉的模块时 → `recall` 该模块的历史经验
+- ✅ 调试问题时 → `recall` 是否有类似问题的解决方案
+- ✅ 不确定架构决策时 → `recall` 之前的设计决策
+
+**推荐工作流**：
+1. **DMN 全景扫描**：`mcp_promptx_recall({role: "frontend-senior-developer", query: null})` → 看到角色的所有记忆域
+2. **多轮深入挖掘**：从返回的网络图中选词 → 继续 `recall` 深入
+3. **直到信息充足**：不要一次就停止，持续挖掘相关记忆
+
+**示例场景**：
+```
+用户请求: "帮我优化组件渲染性能"
+AI 行为: 
+  1. mcp_promptx_recall({role: "frontend-senior-developer", query: null}) → 看全景
+  2. mcp_promptx_recall({role: "frontend-senior-developer", query: "性能 优化 组件"}) → 深入相关领域
+  3. 结合记忆 + 代码分析给出方案
+  4. mcp_promptx_remember(...) → 保存新方案
+```
+
+### 📤 何时使用 remember（记忆）
+
+**触发时机**（形成条件反射）：
+- ✅ 回答完用户问题后 → 立即 `remember` 关键点
+- ✅ 解决了一个 bug → `remember` 问题原因和解决方案
+- ✅ 发现了新知识/技巧 → `remember` 保存
+- ✅ recall 返回空白领域 → 必须 `remember` 填补
+- ✅ 做了架构决策 → `remember` 决策理由
+
+**记忆模板**（快速完成）：
+```javascript
+mcp_promptx_remember({
+  role: "frontend-senior-developer",  // 使用的角色
+  engrams: [{
+    content: "刚刚讨论解决的核心内容",
+    schema: "关键词1 关键词2 关键词3",  // 空格分隔
+    strength: 0.7,  // 默认 0.7 即可
+    type: "ATOMIC"  // ATOMIC(具体信息) | LINK(关系) | PATTERN(模式/流程)
+  }]
+})
+```
+
+### 🔄 认知循环（每次任务都应遵循）
+
+```
+┌─────────────┐
+│ 1.看到任务   │
+└──────┬──────┘
+       ↓
+┌─────────────────────┐
+│ 2.DMN扫描网络全景    │ → recall(role, null) 看到所有记忆域
+└──────┬──────────────┘
+       ↓
+┌─────────────────────┐
+│ 3.多轮recall深挖     │ → 从网络图选词，逐层深入探索
+└──────┬──────────────┘
+       ↓
+┌─────────────────────┐
+│ 4.组织回答           │ → 结合记忆+预训练知识
+└──────┬──────────────┘
+       ↓
+┌─────────────────────┐
+│ 5.remember          │ → 保存新知，扩充网络
+└─────────────────────┘
+```
+
+### 📝 项目相关记忆建议
+
+针对本项目，建议记忆以下类型的信息：
+
+| 记忆类型 | 示例 | type | 适用场景 |
+|---------|------|------|----------|
+| 组件设计模式 | "用户中心页面使用组合式函数管理状态" | PATTERN | 开发新页面时 |
+| Bug 修复经验 | "路由跳转失败通常是路径配置问题" | ATOMIC | 调试问题时 |
+| 性能优化技巧 | "大列表使用虚拟滚动提升性能" | LINK | 性能优化时 |
+| API 使用要点 | "Vue 3 组合式函数需要正确使用响应式 API" | ATOMIC | 开发新功能时 |
+| 开发规范 | "新组件必须在 components/ 下按类型分类" | PATTERN | 创建新组件时 |
+
+### ⚠️ 重要提醒
+
+1. **每次对话至少 1 条 remember** - 这是积累知识财富的习惯
+2. **recall 空白领域必须 remember 填补** - 让记忆网络越来越丰富
+3. **今天的 remember = 明天的快速答案** - 避免重复研究同样问题
+4. **不 remember = 永远从零开始** - 浪费时间和精力
+
+---
+
+## 📋 AI 助手行为规范
+
+### 工作流程
+
+1. **接收任务** → 识别关键词 → 选择合适角色
+2. **回忆相关记忆** → `recall` 查看历史经验
+3. **检查 OpenSpec** → 查看相关规范和变更提案
+4. **执行任务** → 遵循目录规范和开发规则
+5. **保存记忆** → `remember` 记录关键信息
+6. **发送通知** → 任务完成后自动发送完成通知
+
+### 响应语言
+
+- **始终使用中文**进行沟通和代码注释
+- 技术术语保留英文，必要时提供中文解释
+- 代码中的注释可以使用中文
+
+### 代码质量要求
+
+- 遵循 Vue 3 Composition API 最佳实践
+- 使用 TypeScript 严格模式
+- 新功能必须同步创建 OpenSpec 规范（如需要）
+- 所有修改必须符合目录职责划分
+
+### OpenSpec 集成
+
+- **创建变更前**：检查 `openspec/list --specs` 查看现有规范
+- **创建变更时**：遵循 OpenSpec 工作流程，创建完整的提案
+- **实施变更时**：按 `tasks.md` 逐步实施，完成后标记所有任务
+- **归档变更时**：部署后移动到 `archive/` 目录
+
+### 错误处理
+
+- 如果遇到禁止修改的文件，**立即停止**并提示用户使用正确方法
+- 如果任务涉及多个角色，先激活 `frontend-tech-lead` 分析
+- 如果记忆系统返回空白，完成后必须 `remember` 填补
+- 如果任务需要重大变更，必须先创建 OpenSpec 变更提案
+
+---
+
+## 🔧 常用命令
+
+| 命令 | 功能 | 使用场景 |
+|------|------|----------|
+| `npm run dev` | 启动开发服务器 | 本地开发时 |
+| `npm run build` | 构建生产版本 | 部署前 |
+| `npm run preview` | 预览构建结果 | 构建后验证 |
+| `openspec list` | 查看变更列表 | 查看进行中的变更 |
+| `openspec list --specs` | 查看规范列表 | 查看系统规范 |
+| `openspec validate <change-id> --strict` | 验证变更提案 | 创建变更后 |
+| `openspec archive <change-id> --yes` | 归档变更 | 部署后 |
+
+---
+
+**最后更新**: 2025  
+**版本**: 1.0
+
