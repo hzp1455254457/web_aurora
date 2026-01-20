@@ -10,7 +10,7 @@ alwaysApply: true
   Last Updated: 2025
 -->
 
-这是一个基于 **Vue 3 + Vite + TypeScript** 的 AI 数字人前端 Web 项目。请严格按照以下目录分工进行开发。
+这是一个基于 **Vue 3 + Vite + TypeScript** 的 AI 女友 web 官网项目。请严格按照以下目录分工进行开发。
 
 ## 📂 工作区结构
 
@@ -44,7 +44,7 @@ src/
 ├── components/          # 可复用组件
 │   ├── common/          # 通用组件（按钮、输入框等）
 │   ├── layout/          # 布局组件（Header、Sidebar等）
-│   └── business/        # 业务组件（数字人相关）
+│   └── business/        # 业务组件（AI女友相关）
 ├── views/               # 页面视图组件
 │   ├── Home.vue         # 首页
 │   ├── About.vue        # 关于页

@@ -1,6 +1,6 @@
 # web_aurora
 
-基于 Vue 3、Vite 和 TypeScript 的现代化前端项目框架，用于 AI 数字人 Web 应用。
+基于 Vue 3、Vite 和 TypeScript 的现代化前端项目框架，用于 AI 女友 web 官网项目。
 
 ## 🚀 快速开始
 
