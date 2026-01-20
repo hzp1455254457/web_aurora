@@ -8,10 +8,6 @@
 import Anora from './views/Anora.vue'
 </script>
 
-<script setup lang="ts">
-// 使用 Composition API
-</script>
-
 <style scoped>
 .app {
   min-height: 100vh;

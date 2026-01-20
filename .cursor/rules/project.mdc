@@ -193,27 +193,55 @@ openspec/
 
 ---
 
-### 5. 配置文件根目录
+### 5. docs/ - 项目文档目录（可选）
+
+**路径**: `docs/`  
+**职责**: 存放项目相关文档（如需要）
+
+**目录结构**:
+```
+docs/
+├── api/              # API 文档
+│   └── api.md        # API 接口文档
+├── design/            # 设计文档
+│   └── ui-design.md  # UI 设计文档
+└── ...                # 其他文档
+```
+
+**开发规则**:
+- ✅ 项目文档可以放在 `docs/` 目录（可选）
+- ✅ 系统规范必须放在 `openspec/specs/` 目录
+- ✅ 变更提案必须放在 `openspec/changes/` 目录
+- ✅ 项目说明文档放在根目录 `README.md`
+
+**注意**：
+- `docs/` 目录是可选的，主要用于非规范类的项目文档
+- 所有系统规范和变更提案必须使用 OpenSpec 目录结构
+
+---
+
+### 6. 配置文件根目录
 
 **路径**: 项目根目录  
 **职责**: 项目配置文件
 
 **主要文件**:
-- `package.json` - npm 项目配置和依赖
-- `vite.config.ts` - Vite 构建配置
-- `tsconfig.json` - TypeScript 编译配置
-- `tsconfig.node.json` - Node.js 环境 TypeScript 配置
+- `package.json` - npm 项目配置和依赖（JSON 格式）
+- `vite.config.ts` - Vite 构建配置（TypeScript 格式）
+- `tsconfig.json` - TypeScript 编译配置（JSON 格式）
+- `tsconfig.node.json` - Node.js 环境 TypeScript 配置（JSON 格式）
 - `index.html` - HTML 入口模板
-- `vercel.json` - Vercel 部署配置
-- `netlify.toml` - Netlify 部署配置
+- `vercel.json` - Vercel 部署配置（JSON 格式）
+- `netlify.toml` - Netlify 部署配置（TOML 格式）
 - `.gitignore` - Git 忽略文件
 - `README.md` - 项目说明文档
 
 **开发规则**:
-- ✅ 修改构建配置 → 编辑 `vite.config.ts`
-- ✅ 修改 TypeScript 配置 → 编辑 `tsconfig.json`
-- ✅ 添加依赖 → 编辑 `package.json` 后运行 `npm install`
-- ✅ 修改部署配置 → 编辑 `vercel.json` 或 `netlify.toml`
+- ✅ 修改构建配置 → 编辑 `vite.config.ts`（TypeScript）
+- ✅ 修改 TypeScript 配置 → 编辑 `tsconfig.json`（JSON）
+- ✅ 添加依赖 → 编辑 `package.json`（JSON）后运行 `npm install`
+- ✅ 修改部署配置 → 编辑 `vercel.json`（JSON）或 `netlify.toml`（TOML）
+- ✅ 配置文件优先使用 JSON/TypeScript 格式，便于版本控制和编辑
 
 ---
 
@@ -230,9 +258,11 @@ openspec/
 | 修改状态管理 | `src/stores/模块名.ts` | 高 |
 | 创建变更提案 | `openspec/changes/<change-id>/` | 中 |
 | 编写系统规范 | `openspec/specs/系统名/spec.md` | 中 |
+| 编写技术设计 | `openspec/changes/<change-id>/design.md` | 中 |
+| 创建项目文档 | `docs/` 或根目录 `README.md` | 低 |
 | 修改构建配置 | `vite.config.ts` | 低 |
 | 修改 TypeScript 配置 | `tsconfig.json` | 低 |
-| 查看设计文档 | `openspec/specs/` 或 `openspec/project.md` | 低 |
+| 查看设计文档 | `openspec/specs/` 或 `openspec/changes/` | 低 |
 
 ---
 
@@ -306,22 +336,46 @@ openspec/
 
 ### ✅ 强制规则（必须执行）
 
-1. ✅ **所有系统规范统一放在 `openspec/specs/` 目录**
-   - 不允许在其他位置创建规范文档
+1. ✅ **所有设计文档和规范文档统一放在指定目录**
+   - **系统规范**：统一放在 `openspec/specs/` 目录
+     - 不允许在其他位置创建规范文档
+     - 规范文件使用 `spec.md` 命名
+   - **变更提案**：统一放在 `openspec/changes/<change-id>/` 目录
+     - 包含 `proposal.md`、`tasks.md` 和规范变更
+     - 技术设计文档使用 `design.md` 命名
+   - **项目文档**：统一放在项目根目录或 `docs/` 目录（如需要）
+     - `README.md` - 项目说明文档（根目录）
+     - `docs/` - 其他项目文档（如 API 文档、设计文档等，可选）
+   - **禁止在其他位置创建文档**：不允许在 `src/`、`public/` 等代码目录下创建文档文件
 
 2. ✅ **重大变更前先创建变更提案**
    - 在 `openspec/changes/<change-id>/` 创建提案
    - 包含 `proposal.md`、`tasks.md` 和规范变更
+   - 变更 ID 使用 kebab-case，动词开头（如 `add-user-auth`）
 
-3. ✅ **使用 Vue 3 Composition API**
+3. ✅ **新模块开发需同步创建设计文档**
+   - 重大功能模块开发前，在 `openspec/changes/<change-id>/design.md` 创建技术设计文档
+   - 或在 `openspec/specs/` 下创建对应的系统规范文档
+   - 设计文档应包含：架构设计、技术选型、接口设计、数据结构等
+
+4. ✅ **配置文件优先使用 JSON/TypeScript 格式**
+   - 构建配置：优先编辑 `vite.config.ts`（TypeScript）
+   - 项目配置：优先编辑 `package.json`（JSON）
+   - TypeScript 配置：编辑 `tsconfig.json`（JSON）
+   - 部署配置：编辑 `vercel.json` 或 `netlify.toml`
+   - 避免手动修改自动生成的配置文件
+
+5. ✅ **使用 Vue 3 Composition API**
    - 优先使用 `<script setup>` 语法
    - 使用组合式函数（Composables）组织逻辑
+   - 遵循 Vue 3 最佳实践
 
-4. ✅ **TypeScript 严格模式**
+6. ✅ **TypeScript 严格模式**
    - 启用严格类型检查
    - 避免使用 `any` 类型
+   - 所有新增代码必须包含类型定义
 
-5. ✅ **每次任务完成后必须发送完成通知**（见下方详细规则）
+7. ✅ **每次任务完成后必须发送完成通知**（见下方详细规则）
 
 ---
 
