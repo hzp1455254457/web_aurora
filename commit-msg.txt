@@ -1,9 +1,0 @@
-feat: 根据官网页面 HTML 生成对应的 Vue 组件
-
-- 创建 LandingSection 业务组件（Landing 区域）
-- 创建 FeatureSection 业务组件（特性展示区域）
-- 创建 ModuleCard 业务组件（模块卡片）
-- 更新 AnoraHeader 组件，添加导航菜单功能
-- 更新 Anora.vue 页面，整合所有业务组件
-- 创建导航相关类型定义文件
-- 所有组件遵循 Vue 3 Composition API 和项目规范
