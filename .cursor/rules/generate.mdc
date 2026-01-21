@@ -1,0 +1,604 @@
+---
+alwaysApply: true
+---
+
+# Figma/HTML 转 Vue 代码生成规则
+
+本文档定义了将 Figma 设计图或 HTML 页面转换为项目框架 Vue 代码的规则和最佳实践。
+
+## 🎯 核心原则
+
+### 完美还原原则
+1. **尺寸精确**：严格按照设计图的尺寸实现（px、百分比、flex 等）
+2. **颜色一致**：使用设计图中的精确颜色值（RGB、HEX、RGBA）
+3. **字体规范**：完全匹配设计图的字体、字号、字重、行高
+4. **间距准确**：padding、margin、gap 等间距值与设计图保持一致
+5. **效果还原**：阴影、渐变、圆角、透明度等视觉效果完美还原
+6. **布局一致**：Flexbox、Grid 布局与设计图完全一致
+
+### 组件化原则
+1. **职责单一**：每个组件只负责一个功能模块
+2. **可复用性**：提取公共组件和样式
+3. **层次清晰**：按布局组件、业务组件分类组织
+4. **易于维护**：代码结构清晰，便于后续修改
+
+---
+
+## 📐 Figma 转 Vue 代码规则
+
+### 工作流程
+
+#### 步骤 1：分析 Figma 设计结构
+```
+1. 识别主要容器和布局层级
+2. 识别可复用的组件单元
+3. 提取颜色、字体、间距等设计规范
+4. 分析交互行为和状态
+5. 识别响应式断点需求
+```
+
+#### 步骤 2：规划组件结构
+```
+根据设计图层级规划组件：
+- 布局组件（layout/）：Header、Footer、Sidebar 等
+- 业务组件（business/）：LandingSection、FeatureSection、ModuleCard 等
+- 通用组件（common/）：Button、Input、Card 等（如需要）
+```
+
+#### 步骤 3：提取设计数据
+```
+使用 Figma MCP 工具获取：
+- 文件数据：mcp_Framelink_MCP_for_Figma_get_figma_data(fileKey, nodeId)
+- 图片资源：mcp_Framelink_MCP_for_Figma_download_figma_images(fileKey, nodes, localPath)
+```
+
+#### 步骤 4：创建组件文件
+
+**组件命名规范：**
+- 组件文件：`PascalCase.vue`（如：`LandingSection.vue`）
+- 组件目录：按类型分类（layout/、business/、common/）
+
+**组件结构规范：**
+```vue
+<template>
+  <!-- 模板内容，严格按设计图结构 -->
+</template>
+
+<script setup lang="ts">
+// 1. 导入依赖
+import { ref, computed } from 'vue'
+import type { ComponentType } from '@/types/component'
+
+// 2. 定义 Props 接口
+interface Props {
+  // 使用设计图中的具体属性
+  title?: string
+  imageUrl?: string
+  // ...
+}
+
+// 3. 定义 Props（使用 withDefaults）
+const props = withDefaults(defineProps<Props>(), {
+  // 默认值
+})
+
+// 4. 定义 Emits
+const emit = defineEmits<{
+  click: []
+  // ...
+}>()
+
+// 5. 响应式数据
+const state = ref<StateType>({})
+
+// 6. 计算属性
+const computedValue = computed(() => {
+  // ...
+})
+
+// 7. 方法
+const handleAction = () => {
+  // ...
+}
+</script>
+
+<style scoped>
+/* 样式：严格按设计图实现 */
+/* 1. 尺寸：使用设计图中的精确值 */
+/* 2. 颜色：使用设计图中的颜色值 */
+/* 3. 字体：匹配设计图的字体规范 */
+/* 4. 间距：padding、margin、gap 等 */
+/* 5. 效果：阴影、渐变、圆角等 */
+</style>
+```
+
+#### 步骤 5：样式实现规则
+
+**尺寸转换：**
+```css
+/* Figma 中的尺寸直接使用 */
+width: 1440px;      /* 设计图宽度 */
+height: 84px;       /* 设计图高度 */
+padding: 24px 44px; /* 设计图 padding */
+gap: 48px;          /* 设计图 gap */
+border-radius: 38px; /* 设计图圆角 */
+```
+
+**颜色转换：**
+```css
+/* 使用设计图中的精确颜色值 */
+color: #FF8DB5;                          /* HEX */
+color: rgba(0, 0, 0, 0.80);             /* RGBA */
+background: linear-gradient(270deg, ...); /* 渐变 */
+```
+
+**字体转换：**
+```css
+/* 完全匹配设计图的字体规范 */
+font-family: 'Inter', sans-serif;  /* 字体族 */
+font-size: 64px;                   /* 字号 */
+font-weight: 700;                  /* 字重 */
+line-height: 91px;                 /* 行高 */
+```
+
+**效果转换：**
+```css
+/* 阴影效果 */
+box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.25);
+
+/* 渐变效果 */
+background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.20) 100%);
+
+/* 毛玻璃效果 */
+backdrop-filter: blur(10px);
+background: rgba(33.10, 33.10, 33.10, 0.15);
+```
+
+#### 步骤 6：整合到页面
+
+```vue
+<template>
+  <div class="page-container">
+    <!-- 布局组件 -->
+    <AnoraHeader />
+    
+    <!-- 主面板 -->
+    <AnoraMainPanel>
+      <!-- 业务组件插槽 -->
+      <template #landing>
+        <LandingSection />
+      </template>
+      
+      <template #feature>
+        <FeatureSection />
+      </template>
+    </AnoraMainPanel>
+  </div>
+</template>
+```
+
+### Figma MCP 使用示例
+
+```typescript
+// 1. 获取设计数据
+const figmaData = await mcp_Framelink_MCP_for_Figma_get_figma_data({
+  fileKey: '296WIAxav2gKg3MukBtrgY',
+  nodeId: '3208:3037'
+})
+
+// 2. 分析设计结构
+const { layout, colors, typography, spacing } = analyzeFigmaData(figmaData)
+
+// 3. 下载图片资源
+await mcp_Framelink_MCP_for_Figma_download_figma_images({
+  fileKey: '296WIAxav2gKg3MukBtrgY',
+  nodes: [/* 图片节点 */],
+  localPath: 'src/assets/figma/'
+})
+
+// 4. 生成组件代码
+generateVueComponent(layout, colors, typography, spacing)
+```
+
+---
+
+## 🌐 HTML 转 Vue 代码规则
+
+### 工作流程
+
+#### 步骤 1：分析 HTML 结构
+```
+1. 识别页面容器和布局层级
+2. 识别可复用的组件单元（section、card、button 等）
+3. 提取样式规范（内联样式 → CSS 类）
+4. 识别交互行为和事件
+5. 分析响应式需求
+```
+
+#### 步骤 2：组件化拆分
+
+**布局组件提取：**
+```html
+<!-- HTML -->
+<header class="header">...</header>
+<!-- 转换为 -->
+<!-- src/components/layout/AnoraHeader.vue -->
+```
+
+**业务组件提取：**
+```html
+<!-- HTML -->
+<section class="landing-section">...</section>
+<!-- 转换为 -->
+<!-- src/components/business/LandingSection.vue -->
+```
+
+**通用组件提取：**
+```html
+<!-- HTML -->
+<button class="get-started-btn">...</button>
+<!-- 转换为 -->
+<!-- src/components/common/Button.vue（如需要） -->
+```
+
+#### 步骤 3：样式重构
+
+**内联样式转换：**
+```html
+<!-- HTML 原始 -->
+<div style="width: 1440px; height: 84px; padding: 24px 44px; background: white; box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);">
+
+<!-- Vue 转换 -->
+<template>
+  <div class="header">...</div>
+</template>
+
+<style scoped>
+.header {
+  width: 1440px;
+  height: 84px;
+  padding: 24px 44px;
+  background: white;
+  box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);
+}
+</style>
+```
+
+**样式提取原则：**
+1. 所有内联样式提取到 `<style scoped>` 中
+2. 保持样式值的精确性（颜色、尺寸、间距等）
+3. 使用语义化的 CSS 类名
+4. 提取公共样式到变量或 mixins（如需要）
+
+#### 步骤 4：数据驱动转换
+
+**静态内容 → Props：**
+```html
+<!-- HTML -->
+<h1>玲梦AI 成为你温柔而稳定的陪伴</h1>
+
+<!-- Vue 转换 -->
+<template>
+  <h1>{{ title }}</h1>
+</template>
+
+<script setup lang="ts">
+interface Props {
+  title?: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  title: '玲梦AI 成为你温柔而稳定的陪伴'
+})
+</script>
+```
+
+**事件处理转换：**
+```html
+<!-- HTML -->
+<button onclick="handleClick()">Get Started</button>
+
+<!-- Vue 转换 -->
+<template>
+  <button @click="handleGetStarted">Get Started</button>
+</template>
+
+<script setup lang="ts">
+const emit = defineEmits<{
+  getStarted: []
+}>()
+
+const handleGetStarted = () => {
+  emit('getStarted')
+}
+</script>
+```
+
+#### 步骤 5：图片资源处理
+
+**占位图片 → 动态图片：**
+```html
+<!-- HTML -->
+<img src="https://placehold.co/170x55" alt="Logo">
+
+<!-- Vue 转换 -->
+<template>
+  <img :src="logoUrl" alt="Logo">
+</template>
+
+<script setup lang="ts">
+import logoImage from '@/assets/figma/logo.png'
+
+const logoUrl = logoImage
+</script>
+```
+
+**图片路径规范：**
+- 使用 `@/assets/` 路径别名
+- 图片资源放在 `src/assets/figma/` 目录
+- 使用 `import` 方式导入图片
+
+#### 步骤 6：类型定义
+
+**为组件创建类型定义：**
+```typescript
+// src/types/component.ts
+export interface LandingSectionProps {
+  title?: string
+  buttonText?: string
+  backgroundImage?: string
+}
+
+export interface FeatureSectionProps {
+  title: string
+  features: Feature[]
+  imageUrl?: string
+}
+
+export interface Feature {
+  text: string
+  active?: boolean
+}
+```
+
+---
+
+## 🎨 完美还原规范
+
+### 尺寸还原
+
+**固定尺寸：**
+```css
+/* 严格按照设计图的像素值 */
+width: 1440px;
+height: 84px;
+```
+
+**百分比尺寸：**
+```css
+/* 保持设计图的百分比比例 */
+width: 100%;
+padding: 0 48px; /* 设计图的 padding 比例 */
+```
+
+**Flexbox 布局：**
+```css
+/* 完全匹配设计图的 flex 布局 */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 102px; /* 设计图的 gap 值 */
+```
+
+### 颜色还原
+
+**精确颜色值：**
+```css
+/* 使用设计图中的精确颜色值 */
+color: #FF8DB5;           /* 主色调 */
+color: #FCD4E2;           /* 辅助色 */
+color: rgba(0, 0, 0, 0.80); /* 透明度 */
+background: #FEFEFE;      /* 背景色 */
+```
+
+**渐变还原：**
+```css
+/* 完全匹配设计图的渐变效果 */
+background: linear-gradient(
+  270deg, 
+  rgba(255, 255, 255, 0) 0%, 
+  rgba(255, 255, 255, 0.20) 100%
+);
+```
+
+### 字体还原
+
+**字体规范：**
+```css
+/* 完全匹配设计图的字体规范 */
+font-family: 'Inter', sans-serif;    /* 字体族 */
+font-size: 64px;                     /* 字号（精确值） */
+font-weight: 700;                    /* 字重 */
+line-height: 91px;                   /* 行高（精确值） */
+```
+
+**文字效果：**
+```css
+/* 文字阴影 */
+text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.50);
+
+/* 文字颜色 */
+color: rgba(0, 0, 0, 0.80);
+```
+
+### 间距还原
+
+**精确间距：**
+```css
+/* 严格按照设计图的间距值 */
+padding: 24px 44px;    /* header padding */
+padding: 152px 96px 0; /* landing content padding */
+gap: 48px;             /* flex gap */
+gap: 102px;            /* main content gap */
+gap: 62px;             /* nav menu gap */
+```
+
+### 效果还原
+
+**阴影效果：**
+```css
+/* 完全匹配设计图的阴影 */
+box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.25);
+box-shadow: 0px 8px 10px -6px rgba(0, 0, 0, 0.20);
+box-shadow: 0px 2px 4px rgba(255, 254.99, 254.98, 0.20) inset;
+```
+
+**圆角效果：**
+```css
+/* 完全匹配设计图的圆角 */
+border-radius: 38px;  /* 按钮圆角 */
+border-radius: 12px;  /* 卡片圆角 */
+border-radius: 16px;  /* 图标圆角 */
+```
+
+**毛玻璃效果：**
+```css
+/* 毛玻璃背景 */
+background: rgba(33.10, 33.10, 33.10, 0.15);
+border: 1px white solid;
+backdrop-filter: blur(10px);
+border-radius: 18px;
+```
+
+---
+
+## ✅ 质量检查清单
+
+### 设计还原度检查
+
+- [ ] **尺寸**：所有元素的宽高与设计图完全一致
+- [ ] **颜色**：所有颜色值与设计图完全匹配（HEX、RGBA）
+- [ ] **字体**：字体族、字号、字重、行高完全一致
+- [ ] **间距**：padding、margin、gap 等间距值与设计图一致
+- [ ] **圆角**：border-radius 值与设计图一致
+- [ ] **阴影**：box-shadow 参数与设计图一致
+- [ ] **渐变**：linear-gradient 参数与设计图一致
+- [ ] **透明度**：opacity、rgba alpha 值与设计图一致
+- [ ] **布局**：Flexbox、Grid 布局与设计图一致
+- [ ] **定位**：position、left、top 等定位与设计图一致
+
+### 代码质量检查
+
+- [ ] **组件结构**：遵循 Vue 3 Composition API
+- [ ] **TypeScript**：所有 Props、Emits 有类型定义
+- [ ] **代码规范**：使用 `<script setup>` 语法
+- [ ] **样式组织**：使用 `<style scoped>`，样式清晰
+- [ ] **组件命名**：PascalCase 命名，语义清晰
+- [ ] **文件位置**：组件放在正确的目录（layout/、business/）
+- [ ] **可复用性**：公共逻辑提取为 Composables
+- [ ] **响应式**：考虑响应式设计需求
+
+### 功能完整性检查
+
+- [ ] **交互功能**：所有按钮、链接有事件处理
+- [ ] **数据绑定**：使用 v-model、:src、:class 等指令
+- [ ] **条件渲染**：v-if、v-show 使用正确
+- [ ] **列表渲染**：v-for 使用正确，有 key
+- [ ] **插槽使用**：需要插槽的地方使用 slot
+- [ ] **事件传递**：父子组件事件传递正确
+
+---
+
+## 📋 示例模板
+
+### Figma 转 Vue 组件模板
+
+```vue
+<template>
+  <!-- 根据 Figma 设计图的结构编写模板 -->
+  <section class="component-name">
+    <!-- 严格按设计图的层级和结构 -->
+  </section>
+</template>
+
+<script setup lang="ts">
+// 根据设计图提取的 Props
+interface Props {
+  // 从 Figma 设计图提取的属性
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  // 设计图中的默认值
+})
+
+// 事件定义
+const emit = defineEmits<{
+  // 根据设计图的交互定义事件
+}>()
+</script>
+
+<style scoped>
+/* 严格按照 Figma 设计图的样式实现 */
+.component-name {
+  /* 尺寸：直接使用 Figma 中的值 */
+  /* 颜色：使用 Figma 中的颜色值 */
+  /* 字体：匹配 Figma 中的字体规范 */
+  /* 间距：使用 Figma 中的间距值 */
+  /* 效果：完全还原 Figma 中的视觉效果 */
+}
+</style>
+```
+
+### HTML 转 Vue 组件模板
+
+```vue
+<template>
+  <!-- 将 HTML 结构转换为 Vue 模板 -->
+  <!-- 提取内联样式到 <style scoped> -->
+  <!-- 将静态内容改为 Props 或响应式数据 -->
+</template>
+
+<script setup lang="ts">
+// 从 HTML 中提取的动态内容作为 Props
+interface Props {
+  // ...
+}
+
+// 从 HTML 中的事件处理转换为 emit
+const emit = defineEmits<{
+  // ...
+}>()
+</script>
+
+<style scoped>
+/* 将 HTML 中的内联样式提取到这里 */
+/* 保持样式值的精确性 */
+</style>
+```
+
+---
+
+## 🚀 快速参考
+
+### Figma → Vue 转换步骤
+1. 使用 Figma MCP 获取设计数据
+2. 分析设计结构，规划组件
+3. 下载图片资源到 `src/assets/figma/`
+4. 创建组件文件（按 layout/、business/ 分类）
+5. 实现样式（严格按设计图）
+6. 添加 TypeScript 类型定义
+7. 整合到页面组件
+
+### HTML → Vue 转换步骤
+1. 分析 HTML 结构，识别组件
+2. 提取内联样式到 `<style scoped>`
+3. 将静态内容改为 Props
+4. 转换事件处理为 emit
+5. 处理图片资源（使用 import）
+6. 创建类型定义文件
+7. 整合到页面组件
+
+---
+
+**最后更新**: 2025  
+**版本**: 1.0
