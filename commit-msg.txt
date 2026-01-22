@@ -1,0 +1,8 @@
+docs: 添加 Figma/HTML 转 Vue 代码生成规则
+
+- 创建 generate.mdc 规则文档
+- 添加 Figma 转 Vue 代码规则和最佳实践
+- 添加 HTML 转 Vue 代码规则和最佳实践
+- 添加完美还原设计图的规范要求
+- 添加质量检查清单和示例模板
+- 所有规则遵循项目框架和 Vue 3 Composition API
